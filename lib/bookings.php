@@ -47,15 +47,16 @@ class Bookings
 	//metodo per aggiungere una nuova prenotazione
 	public function AddBooking()
 	{
+		global $DB;
 		
 		//se i campi di input sono stati correttamente inseriti allora aggiungo la prenotazione
 		if($this->ValidateBooking()){
 			
 			//pulisco la stringa da caratteri non accettati dal mysql
-			$user = DB->real_escape_string($this->GetUser());
+			$user = $DB->escape($this->GetUser());
 		
 			foreach($this->GetFoods() as $foodid){
-				DB->query('INSERT INTO cc_bookings (user,foodid,time) VALUES (?,?,?)', $user, $foodid, $this->GetDay());
+				$DB->query('INSERT INTO cc_bookings (user, foodid, day) VALUES (?, ?, ?)', $user, $foodid, $this->GetDay());
 			}
 		
 		}
@@ -79,8 +80,8 @@ class Bookings
 	//metodo per leggere le prenotazioni di un determinato giorno della settimana
 	private function GetBookings()
 	{
-		
-		return DB->query('SELECT * FROM cc_bookings WHERE time = ?', $this->GetDay())->fetchAll();
+		global $DB;
+		return $DB->query('SELECT * FROM cc_bookings WHERE day = ?', $this->GetDay())->fetchAll();
 		
 	}
 	

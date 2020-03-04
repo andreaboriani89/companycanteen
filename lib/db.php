@@ -14,6 +14,10 @@ class db {
 		}
 		$this->connection->set_charset($charset);
 	}
+	
+	public function escape($value){
+		return mysqli_real_escape_string($this->connection, $value);
+	}
 
     public function query($query) {
         if (!$this->query_closed) {
