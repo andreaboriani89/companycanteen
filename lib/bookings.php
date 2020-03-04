@@ -7,7 +7,7 @@ class Bookings
 	private $foods;
 	private $day;
 
-	public function __construct($user, $foods, $day)
+	public function __construct(string $user, array $foods, string $day)
     {
         $this->SetUser($user);
         $this->SetFoods($foods);
@@ -44,17 +44,18 @@ class Bookings
 		return $this->day;
 	}
 	
+	//metodo per aggiungere una nuova prenotazione
 	public function AddBooking()
 	{
-		global $DB;
 		
 		//se i campi di input sono stati correttamente inseriti allora aggiungo la prenotazione
 		if($this->ValidateBooking()){
 			
-			$user = $DB->real_escape_string($this->GetUser());
+			//pulisco la stringa da caratteri non accettati dal mysql
+			$user = DB->real_escape_string($this->GetUser());
 		
 			foreach($this->GetFoods() as $foodid){
-				$DB->query('INSERT INTO cc_bookings (user,foodid,time) VALUES (?,?,?)', $user, $foodid, $this->GetDay());
+				DB->query('INSERT INTO cc_bookings (user,foodid,time) VALUES (?,?,?)', $user, $foodid, $this->GetDay());
 			}
 		
 		}
@@ -71,6 +72,31 @@ class Bookings
 		if(!$this->GetDay()) return false;	
 		
 		return true;
+		
+	}
+	
+	
+	//metodo per leggere le prenotazioni di un determinato giorno della settimana
+	private function GetBookings()
+	{
+		
+		return DB->query('SELECT * FROM cc_bookings WHERE time = ?', $this->GetDay())->fetchAll();
+		
+	}
+	
+	//metodo che ritorna un json delle prenotazioni di un determinato giorno della settimana
+	public function GetBookingsJson()
+	{
+		
+		return json_encode($this->GetBookings());
+		
+	}
+	
+	//metodo che ritorna un array delle prenotazioni di un determinato giorno della settimana
+	public function GetBookingsArray()
+	{
+		
+		return $this->GetBookings();
 		
 	}
 
