@@ -49,28 +49,50 @@ class Bookings
 	{
 		global $DB;
 		
-		//se i campi di input sono stati correttamente inseriti allora aggiungo la prenotazione
-		if($this->ValidateBooking()){
-			
-			//pulisco la stringa da caratteri non accettati dal mysql
-			$user = $DB->escape($this->GetUser());
+		try{
 		
-			foreach($this->GetFoods() as $foodid){
-				$DB->query('INSERT INTO cc_bookings (user, foodid, day) VALUES (?, ?, ?)', $user, $foodid, $this->GetDay());
+			//se i campi di input sono stati correttamente inseriti allora aggiungo la prenotazione
+			if($this->ValidateBooking()){
+				
+				//pulisco la stringa da caratteri non accettati dal mysql
+				$user = $DB->escape($this->GetUser());
+			
+				foreach($this->GetFoods() as $foodid){
+					$DB->query('INSERT INTO cc_bookings (user, foodid, day) VALUES (?, ?, ?)', $user, $foodid, $this->GetDay());
+				}
+			
 			}
 		
+		} catch (Exception $e) {
+			return 'Caught exception ' .$e->getMessage();
 		}
+		
+		return "200: ok addBooking";
 		
 	}
 	
 	//metodo per validare i campi di input di una prenotazione di un utente
 	private function ValidateBooking(){
 		
-		if(!$this->GetUser()) return false;
+		if(!$this->GetUser()){
+			throw new Exception('1001: The user field is empty');
+			return false;
+		}
 		
-		if(!count($this->GetFoods())) return false;
+		if(strlen($this->GetUser()) > 255){
+			throw new Exception('1002: The user field is longer than 255 characters');
+			return false;
+		}
 		
-		if(!$this->GetDay()) return false;	
+		if(!count($this->GetFoods())){
+			throw new Exception('1003: The foods field is empty');
+			return false;
+		}
+		
+		if(!$this->GetDay()){
+			throw new Exception('1004: The day field is empty');
+			return false;	
+		}
 		
 		return true;
 		
@@ -81,7 +103,16 @@ class Bookings
 	private function GetBookings()
 	{
 		global $DB;
-		return $DB->query('SELECT * FROM cc_bookings WHERE day = ?', $this->GetDay())->fetchAll();
+		
+		$where = "";
+		$params = array();
+		
+		if($this->GetDay()){
+			$where = " AND day = ?";
+			$params[] = $this->GetDay();
+		}
+		
+		return $DB->query('SELECT * FROM cc_bookings WHERE 1=1'.$where, $params)->fetchAll();
 		
 	}
 	
