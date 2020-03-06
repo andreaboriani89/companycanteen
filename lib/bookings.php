@@ -98,35 +98,15 @@ class Bookings
 	
 	
 	//metodo per leggere le prenotazioni di un determinato giorno della settimana
-	private function GetBookings()
+	public function GetBookings()
 	{
 		global $DB;
 		
-		$where = "";
-		$params = array();
-		
-		if($this->GetDay()){
-			$where = " AND day = ?";
-			$params[] = $this->GetDay();
+		if(!$this->GetDay()){
+			return array();
 		}
 		
-		return $DB->query('SELECT * FROM cc_bookings WHERE 1=1'.$where, $params)->fetchAll();
-		
-	}
-	
-	//metodo che ritorna un json delle prenotazioni di un determinato giorno della settimana
-	public function GetBookingsJson()
-	{
-		
-		return json_encode($this->GetBookings());
-		
-	}
-	
-	//metodo che ritorna un array delle prenotazioni di un determinato giorno della settimana
-	public function GetBookingsArray()
-	{
-		
-		return $this->GetBookings();
+		return $DB->query('SELECT * FROM cc_bookings WHERE AND day = ?', array($this->GetDay()))->fetchAll();
 		
 	}
 
