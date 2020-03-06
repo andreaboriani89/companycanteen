@@ -1,0 +1,5 @@
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    RewriteRule ^bookings/new$ public/ws/addBooking.php [L]
+    RewriteRule ^bookings/list$ public/ws/getBookings.php [L]
+</IfModule>

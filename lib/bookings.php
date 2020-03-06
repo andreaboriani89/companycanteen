@@ -52,7 +52,7 @@ class Bookings
 		try{
 		
 			//se i campi di input sono stati correttamente inseriti allora aggiungo la prenotazione
-			if($this->ValidateBooking()){
+			if($this->ValidateBooking()[0] == 200){
 				
 				//pulisco la stringa da caratteri non accettati dal mysql
 				$user = $DB->escape($this->GetUser());
@@ -61,13 +61,15 @@ class Bookings
 					$DB->query('INSERT INTO cc_bookings (user, foodid, day) VALUES (?, ?, ?)', $user, $foodid, $this->GetDay());
 				}
 			
+			}else{
+				return $this->ValidateBooking();
 			}
 		
 		} catch (Exception $e) {
-			return 'Caught exception ' .$e->getMessage();
+			return array(500 , 'Caught exception ' .$e->getMessage());
 		}
 		
-		return "200: ok addBooking";
+		return array(201, "ok addBooking");
 		
 	}
 	
@@ -75,26 +77,22 @@ class Bookings
 	private function ValidateBooking(){
 		
 		if(!$this->GetUser()){
-			throw new Exception('1001: The user field is empty');
-			return false;
+			return array(400, "The user field is empty");
 		}
 		
 		if(strlen($this->GetUser()) > 255){
-			throw new Exception('1002: The user field is longer than 255 characters');
-			return false;
+			return array(400, "The user field is longer than 255 characters");
 		}
 		
 		if(!count($this->GetFoods())){
-			throw new Exception('1003: The foods field is empty');
-			return false;
+			return array(400, "The foods field is empty");
 		}
 		
 		if(!$this->GetDay()){
-			throw new Exception('1004: The day field is empty');
-			return false;	
+			return array(400, "The day field is empty");	
 		}
 		
-		return true;
+		return array(200, "valori input validati");
 		
 	}
 	
