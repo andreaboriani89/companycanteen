@@ -1,9 +1,9 @@
 <?php
 
 require_once(dirname(__FILE__)."/../lib/bookings.php");
-require_once(dirname(__FILE__)."/../lib/initConfig.php");
+require_once(dirname(__FILE__)."/../config/initConfig.php");
 
-if(!isset($_GET['token']) || $_GET['token'] != hash('sha512', "companycanteen") || !isset($_GET['host']) || $_GET['host'] != $config['wwwroot']){
+if(!isset($_POST['token']) || $_POST['token'] != hash('sha512', "companycanteen") || !isset($_POST['host']) || $_POST['host'] != $wwwroot){
 	http_response_code(401);
 	echo "Authentication error";
 	exit();
@@ -11,8 +11,8 @@ if(!isset($_GET['token']) || $_GET['token'] != hash('sha512', "companycanteen") 
 
 $day = "";
 
-if(isset($_GET['day'])){
-	$day = $_GET['day'];
+if(isset($_POST['day'])){
+	$day = $_POST['day'];
 }
 
 $Bookings = new Bookings("", array(), $day);

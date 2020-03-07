@@ -1,13 +1,13 @@
 <?php
 
 require_once(dirname(__FILE__)."/../lib/bookings.php");
-require_once(dirname(__FILE__)."/../lib/initConfig.php");
+require_once(dirname(__FILE__)."/../config/initConfig.php");
 
 $user = "";
 $foods = array();
 $day = "";
 
-if(!isset($_POST['token']) || $_POST['token'] != hash('sha512', "companycanteen") || !isset($_POST['host']) || $_POST['host'] != $config['wwwroot']){
+if(!isset($_POST['token']) || $_POST['token'] != hash('sha512', "companycanteen") || !isset($_POST['host']) || $_POST['host'] != $wwwroot){
 	http_response_code(401);
 	echo "Authentication error";
 	exit();

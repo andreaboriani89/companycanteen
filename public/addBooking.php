@@ -1,5 +1,5 @@
 <?php
-require_once(dirname(__FILE__)."/../lib/initConfig.php");
+require_once(dirname(__FILE__)."/../config/initConfig.php");
 
 // set post fields
 $post = [
@@ -7,11 +7,11 @@ $post = [
     'foods'   => $_REQUEST['foods'],
     'day'   => $_REQUEST['day'],
 	'token' => hash('sha512', "companycanteen"),
-	'host' => $config['wwwroot']
+	'host' => $wwwroot
 ];
 
 $ch = curl_init();
-curl_setopt($ch, CURLOPT_URL, $config['wwwroot'].'/api/new');
+curl_setopt($ch, CURLOPT_URL, $wwwroot.'/api/new');
 curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 curl_setopt($ch, CURLOPT_POST, true);
 curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 15);

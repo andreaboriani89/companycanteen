@@ -1,17 +1,17 @@
 <?php
-require_once(dirname(__FILE__)."/../lib/initConfig.php");
+require_once(dirname(__FILE__)."/../config/initConfig.php");
 
 // set post fields
 $post = [
-    'day'   => $_REQUEST['day'],
+    'day'   => "2020-03-07",
 	'token' => hash('sha512', "companycanteen"),
-	'host' => $config['wwwroot']
+	'host' => $wwwroot
 ];
 
 $ch = curl_init();
-curl_setopt($ch, CURLOPT_URL, $config['wwwroot'].'/api/list');
+curl_setopt($ch, CURLOPT_URL, $wwwroot.'/api/list');
 curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-curl_setopt($ch, CURLOPT_POST, false);
+curl_setopt($ch, CURLOPT_POST, true);
 curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 15);
 curl_setopt($ch, CURLOPT_TIMEOUT, 30);
 curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($post));
