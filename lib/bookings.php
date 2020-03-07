@@ -1,5 +1,7 @@
 <?php 
-//classe per gestire le prenotazioni alla mensa aziendale
+/**
+	* @author Andrea Boriani
+*/
 class Bookings
 {
 	
@@ -44,17 +46,24 @@ class Bookings
 		return $this->day;
 	}
 	
-	//metodo per aggiungere una nuova prenotazione
+	/**
+	 * @description method for adding a new booking
+	 *
+     * @params user, foods, day
+     *
+     *
+     * @return: ok addBooking if the parameters are correct, else error 400
+     */
 	public function AddBooking()
 	{
 		global $DB;
 		
 		try{
 		
-			//se i campi di input sono stati correttamente inseriti allora aggiungo la prenotazione
+			//validate input
 			if($this->ValidateBooking()[0] == 200){
 				
-				//pulisco la stringa da caratteri non accettati dal mysql
+				//escape string user
 				$user = $DB->escape($this->GetUser());
 			
 				foreach($this->GetFoods() as $foodid){
@@ -73,7 +82,14 @@ class Bookings
 		
 	}
 	
-	//metodo per validare i campi di input di una prenotazione di un utente
+	/**
+	 * @description method for validate data input
+	 *
+     * @params user, foods, day
+     *
+     *
+     * @return: ok if the parameters are correct, else error 400
+     */
 	private function ValidateBooking(){
 		
 		if(!$this->GetUser()){
@@ -97,7 +113,14 @@ class Bookings
 	}
 	
 	
-	//metodo per leggere le prenotazioni di un determinato giorno della settimana
+	/**
+	 * @description method for get list bookings
+	 *
+     * @param day
+     *
+     *
+     * @return: array list bookings
+     */
 	public function GetBookings()
 	{
 		global $DB;
