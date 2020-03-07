@@ -106,7 +106,7 @@ class Bookings
 			return array();
 		}
 		
-		return $DB->query('SELECT * FROM cc_bookings WHERE AND day = ?', array($this->GetDay()))->fetchAll();
+		return $DB->query('SELECT * FROM cc_bookings WHERE day = ?', $this->GetDay())->fetchAll();
 		
 	}
 

@@ -1,5 +1,7 @@
 <IfModule mod_rewrite.c>
     RewriteEngine On
-    RewriteRule ^bookings/new$ public/ws/addBooking.php [L]
-    RewriteRule ^bookings/list$ public/ws/getBookings.php [L]
+    RewriteRule ^api/new$ app/addBooking.php [L]
+    RewriteRule ^bookings/new$ public/addBooking.php [L]
+    RewriteRule ^api/list$ app/getBookings.php [L]
+    RewriteRule ^bookings/list$ public/getBookings.php [L]
 </IfModule>
