@@ -15,6 +15,16 @@ class db {
 		$this->connection->set_charset($charset);
 	}
 	
+	public function getConnectionState(){
+		
+		if($this->connection){
+			return true;
+		}
+		
+		return false;
+		
+	}
+	
 	public function escape($value){
 		return mysqli_real_escape_string($this->connection, $value);
 	}

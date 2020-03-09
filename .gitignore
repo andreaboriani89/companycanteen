@@ -1,1 +1,2 @@
-tests/test.php
+config/config.php
+vendor/

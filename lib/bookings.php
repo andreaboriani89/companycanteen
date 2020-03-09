@@ -90,13 +90,13 @@ class Bookings
      *
      * @return: ok if the parameters are correct, else error 400
      */
-	private function ValidateBooking(){
+	public function ValidateBooking(){
 		
 		if(!$this->GetUser()){
 			return array(400, "The user field is empty");
 		}
 		
-		if(strlen($this->GetUser()) > 255){
+		if(strlen($this->GetUser()) > 255){	
 			return array(400, "The user field is longer than 255 characters");
 		}
 		
@@ -107,6 +107,12 @@ class Bookings
 		if(!$this->GetDay()){
 			return array(400, "The day field is empty");	
 		}
+		
+		$regexDay = '/[0-9]{4}-[0-9]{2}-[0-9]{2}/';
+
+		if (!preg_match($regexDay, $this->GetDay())) {
+			return array(400, "The format of day field is not correctly. The correctly format is yyy-mm-dd");
+		} 
 		
 		return array(200, "valori input validati");
 		
