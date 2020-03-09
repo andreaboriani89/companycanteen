@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="it">
+	<head>
+		<title>Mensa aziendale</title>
+		<link rel="stylesheet" type="text/css" href="assets/css/bootstrap.min.css" media="screen"/>
+		<link rel="stylesheet" type="text/css" href="assets/css/styles.css" media="screen"/>
+	</head>
+	<body>
+		<h1>Prenotazioni del <span data-bind="text: dayText"></span></h1>
+		<table class="table">
+			<thead>
+				<tr data-bind="foreach: headerColumns">
+					<th data-bind="text: headerColumnText" scope="col"></th>
+				</tr>
+			</thead>
+			<tbody data-bind="foreach: bodyRows">
+				<tr data-bind="foreach: bodyColumns">
+					<td data-bind="text: bodyColumnText"></td>
+				</tr>	
+			</tbody>
+		</table>
+		<script type="text/javascript" src="assets/js/jquery_3_3_1.min.js"></script> 
+		<script type="text/javascript" src="assets/js/bootstrap.min.js"></script> 
+		<script type="text/javascript" src="assets/js/knockout-3.5.1.js"></script> 
+		<script type="text/javascript" src="assets/js/script.js"></script> 
+	</body>
+</html>
